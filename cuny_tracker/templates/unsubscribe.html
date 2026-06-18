@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Unsubscribed</title>
+  <link rel="icon" href="/static/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <main class="container vcenter">
+    <section class="card center">
+      {% if removed %}
+      <h1>You're unsubscribed</h1>
+      <p>You won't get any more emails about that class.</p>
+      {% else %}
+      <h1>Link not found</h1>
+      <p>That unsubscribe link is invalid or already used.</p>
+      {% endif %}
+    </section>
+  </main>
+</body>
+</html>
