@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CUNY Tracker</title>
+  <meta name="description" content="Track a closed CUNY class and get an email when a seat opens.">
+  <link rel="icon" href="/static/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <main class="container">
+    <header class="intro">
+      <h1>cunytracker.com</h1>
+      <p>CUNY classes fill quickly and almost never have waitlists. Enter a class and your email, and we'll email you when a seat opens.</p>
+    </header>
+
+    <section class="card" aria-labelledby="form-heading">
+      <h2 id="form-heading" class="sr-only">Class details</h2>
+      <form id="track-form" novalidate>
+        <div class="grid">
+          <div class="field">
+            <label for="class_number">Class Number</label>
+            <input type="text" id="class_number" name="class_number"
+                   inputmode="numeric" autocomplete="off"
+                   placeholder="e.g. 12345" required>
+            <small class="hint">Find this on CUNYFirst or globalsearch.cuny.edu</small>
+          </div>
+
+          <div class="field">
+            <label for="institution">Institution</label>
+            <select id="institution" name="institution" required>
+              {% for inst in institutions %}
+              <option value="{{ inst }}">{{ inst }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="term">Term</label>
+            <select id="term" name="term" required>
+              {% for t in terms %}
+              <option value="{{ t }}" {% if t == default_term %}selected{% endif %}>{{ t }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="year">Year</label>
+            <select id="year" name="year" required>
+              {% for y in year_options %}
+              <option value="{{ y }}" {% if y == default_year %}selected{% endif %}>{{ y }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="session">Session</label>
+            <select id="session" name="session" required>
+              {% for s in sessions %}
+              <option value="{{ s }}">{{ s }}</option>
+              {% endfor %}
+            </select>
+            <small class="hint">Use 'Regular Academic Session' for most classes.
+              Other session options are for shorter winter and summer classes.</small>
+          </div>
+
+          <div class="field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email"
+                   autocomplete="email" placeholder="you@example.com">
+            <small class="hint">Only needed if you want email alerts.</small>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button type="submit" id="check-btn" class="btn btn-secondary">Check Status</button>
+          <button type="button" id="subscribe-btn" class="btn btn-primary">Email me when it opens</button>
+        </div>
+      </form>
+
+      <div id="message" class="message" role="status" aria-live="polite" hidden></div>
+      <div id="result" class="result" aria-live="polite" hidden></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <span class="footer-note muted">Data from the public CUNY Global Search tool. Not affiliated with CUNY. <a href="https://github.com/felixmclean/cuny-tracker">GitHub</a></span>
+    </div>
+  </footer>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
