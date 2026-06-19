@@ -4,7 +4,7 @@ CUNY class sections often fill quickly and almost never have waitlists. The offi
 
 Live site: [cunytracker.com](https://cunytracker.com)
 
-<img src="home.png" alt="Screenshot" width="600">
+<img src="website.png" alt="Screenshot" width="500">
 
 ## How it works
 
