@@ -12,15 +12,18 @@ You can check a class's current availability anytime, or subscribe to get an ema
 
 ![Architecture](diagram.svg)
 
+```mermaid
 flowchart TD
     U[User] -->|check status| API[Web server]
     U -->|subscribe + email| API
     API -->|live scrape| GS[CUNY Global Search]
     API -->|store subscription| PG[(Postgres)]
+
     SCH["Scheduler (every 5 mins)"] -->|recheck tracked classes| GS
     SCH -->|update cache| PG
     SCH -->|closed/waitlisted to open| MAIL[Email subscriber]
     MAIL -->|one-click unsubscribe link| PG
+```
 
 ## Design decisions
 
