@@ -1,4 +1,4 @@
-# CUNY Seat Tracker
+# CUNY Tracker
 
 CUNY classes fill quickly and almost never have waitlists. The official tools require manually refreshing to check for open seats and offer no automated notifications. CUNY Tracker lets you enter any class and your email address, and emails you when a seat opens.
 
