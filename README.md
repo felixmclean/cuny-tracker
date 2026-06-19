@@ -10,8 +10,6 @@ Live site: [cunytracker.com](https://cunytracker.com)
 
 You can check a class's current availability anytime, or subscribe to get an email when it opens. A scheduler rechecks every tracked class every five minutes, and when a section goes from closed or waitlisted to open, it emails each subscriber with a one-click unsubscribe link. Subscriptions and the latest scraped data are stored in Postgres. The scraper, scheduler, and web server all run in a single process.
 
-![Architecture](diagram.svg)
-
 ```mermaid
 flowchart TD
     U[User] -->|check status| API[Web server]
