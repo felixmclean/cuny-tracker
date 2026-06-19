@@ -25,7 +25,6 @@ def get_current_term_and_year() -> tuple[int, str]:
 
 
 def get_global_search_term_value(year: int, term: str) -> int:
-    # CUNY internal term code (e.g. Fall 2025 -> 1259)
     term_offsets = {"Spring Term": 2, "Summer Term": 6, "Fall Term": 9}
     return (year - 1900) * 10 + term_offsets[term]
 
