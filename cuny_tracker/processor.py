@@ -7,13 +7,8 @@ from bs4 import BeautifulSoup, NavigableString, Tag
 
 from .models import CourseAvailabilities, CourseDetails
 
-# The detail-page shadowbox reads "SUBJECT CATALOG - SECTION Title" (e.g.
-# "MTH 3020 - KTRA Calculus III"). CUNY section codes are 3-4 characters of
-# uppercase letters and/or digits (KTRA, BMF7, PMR1, PM10, RID, TBA, ...).
-# Course titles always begin with a normal mixed-case word, so this never
-# matches a real title's first word.
-_SECTION_CODE = re.compile(r"^[A-Z0-9]{3,4}$")
 
+_SECTION_CODE = re.compile(r"^[A-Z0-9]{3,4}$")
 
 class ParseError(ValueError):
     pass
