@@ -41,26 +41,10 @@ flowchart TD
 - Resend (SMTP) for email delivery
 - Docker, Nginx, Let's Encrypt on Oracle Cloud
 
-## Run locally
-
-Requires a Postgres connection string (a free Neon database works)
-
-with Docker:
-```bash
-git clone https://github.com/felixmclean/cuny-tracker
-cd cuny-tracker
-cp .env.example .env        # set DATABASE_URL and the SMTP values
-docker compose up --build
-```
-
-with Python:
-```bash
-pip install -r requirements.txt && python app.py
-```
-
 ## Limitations
 
-The scraper depends on CUNY Global Search's HTML. A markup change there may break parsing until the selectors are updated. Notifications are also bounded by the poll interval so an open seat might take up to five minutes to be detected. 
+- The scraper depends on CUNY Global Search's HTML so changes to that markup may break parsing.
+- Notifications are bounded by the poll interval so an open seat can take up to five minutes to be detected.
 
 ## Credit
 
