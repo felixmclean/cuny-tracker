@@ -1,6 +1,6 @@
 # CUNY Tracker
 
-CUNY classes fill quickly and almost never have waitlists. The official tools require manually refreshing to check for open seats and offer no automated notifications. CUNY Tracker lets you enter any class and your email address, and emails you when a seat opens.
+CUNY classes fill quickly and almost never have waitlists. The official tools require manually refreshing to check for open seats and offer no automated notifications. CUNY Tracker lets you track a closed class and get an email when a seat opens.
 
 Live site: [cunytracker.com](https://cunytracker.com)
 
@@ -8,7 +8,7 @@ Live site: [cunytracker.com](https://cunytracker.com)
 
 ## How it works
 
-You can check a class's current availability anytime, or subscribe to get an email when it opens. A scheduler rechecks every tracked class every five minutes, and when a section goes from closed or waitlisted to open, it emails each subscriber with a one-click unsubscribe link. Subscriptions and the latest scraped data are stored in Postgres. The scraper, scheduler, and web server all run in a single process.
+You can check a class's current availability and subscribe to get an email when it opens. A scheduler rechecks all tracked classes every five minutes, and when a class goes from closed or waitlisted to open, it emails each subscriber. Subscriptions and the latest scraped data are stored in Postgres. The scraper, scheduler, and web server all run in a single process.
 
 ```mermaid
 flowchart TD
@@ -25,11 +25,11 @@ flowchart TD
 
 ## Design decisions
 
-- Single async process. FastAPI, httpx, and an AsyncIO scheduler share one event loop, so scraping, polling, and serving all run together without a message broker or separate worker.
-- No connection pool. Each query opens its own psycopg connection. This avoids issues with Neon's scale-to-zero behavior and its PgBouncer transaction pooling, which don't work well with long-lived pooled connections.
-- Failure isolation. A scrape, parse, or email error is logged and retried on the next cycle. It never takes down the web server.
-- Status only advances after a successful send. Emails fire only on a closed-to-open transition, and a subscriber's stored status only updates once the email actually sends. This avoids missed notifications and repeat emails while a class stays open.
-- One-click unsubscribe (RFC 8058). Gmail and Outlook render a native unsubscribe button, and every email carries a tokenized link.
+- Single async process. FastAPI, httpx, and an AsyncIO scheduler share one event loop so scraping, polling, and serving all run together without a message broker or separate worker.
+- No connection pool. Each query opens its own psycopg connection which makes it compatible with Neon's scale-to-zero design and PgBouncer's transaction pooling.
+- Failure isolation. Any scrape, parse, or email error is logged and retried on the next cycle so it never takes down the web server.
+- Status only updates after a successful send. Emails only send on a closed-to-open transition, and a subscriber's stored status only updates once the email is actually sent which avoids missed or repeated notifications while a class stays open.
+- One-click unsubscribe (RFC 8058). Gmail and Outlook render a native unsubscribe button and every email carries a tokenized link.
   
 ## Stack
 
@@ -39,13 +39,13 @@ flowchart TD
 - httpx, BeautifulSoup
 - Jinja2, vanilla CSS and JS
 - Resend (SMTP) for email delivery
-- Docker, Nginx, Let's Encrypt on Oracle Cloud ARM
+- Docker, Nginx, Let's Encrypt on Oracle Cloud
 
 ## Run locally
 
 Requires a Postgres connection string (a free Neon database works)
 
-With Docker:
+with Docker:
 ```bash
 git clone https://github.com/felixmclean/cuny-tracker
 cd cuny-tracker
@@ -53,7 +53,7 @@ cp .env.example .env        # set DATABASE_URL and the SMTP values
 docker compose up --build
 ```
 
-With Python:
+with Python:
 ```bash
 pip install -r requirements.txt && python app.py
 ```
