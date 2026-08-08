@@ -6,6 +6,8 @@ Live site: [cunytracker.com](https://cunytracker.com)
 
 <img src="screenshot.png" alt="CUNY Tracker showing a tracked class and its current availability" width="70%">
 
+<img src="emails.png" alt="The tracking confirmation email and the open-seat notification email" width="100%">
+
 ## How it works
 
 You can check a class's current availability and subscribe to get an email when it opens. A scheduler rechecks all tracked classes every five minutes, and when a class goes from closed or waitlisted to open, it emails each subscriber. Subscriptions and the latest scraped data are stored in Postgres. The scraper, scheduler, and web server all run in a single process.
@@ -40,6 +42,12 @@ flowchart TD
 - Jinja2, vanilla CSS and JS
 - Resend (SMTP) for email delivery
 - Docker, Nginx, Let's Encrypt on Oracle Cloud
+
+## Testing
+
+- Parser regression tests run against an offline copy of a CUNY Global Search detail page with known edge cases, so a change to the parsing code shows up as a failing test instead of a silent break.
+- A local preview of the homepage, a completed lookup, both unsubscribe states, and both emails runs on localhost through the real parser, templates, and email code to avoid drift from production.
+- Email alerts are verified manually by marking an already open class as closed in the database, which makes the next check treat it as newly reopened and send a real email.
 
 ## Limitations
 
